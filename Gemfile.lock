@@ -1,3 +1,8 @@
+PATH
+  remote: /Users/alex/Code/ruby/risk_game
+  specs:
+    risk_game (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -147,6 +152,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   rails (= 4.2.0)
+  risk_game!
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring

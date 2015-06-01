@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+  get "game/new" => "game#new"
+  post "game/:id/attack" => "game#attack"
+  post "game/:id/move" => "game#move"
+  post "game/:id/no_move" => "game#no_move"
+  post "game/:id/place" => "game#place"
+  get "game/:id/show" => "game#show"
+  post "game/:id/use_cards" => "game#use_cards"
+
+
+
+
+
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -14,20 +14,20 @@
 ActiveRecord::Schema.define(version: 20150531181058) do
 
   create_table "games", force: :cascade do |t|
+    t.text     "army_map_str"
+    t.text     "assignment_map_str"
+    t.string   "card_list"
+    t.text     "cards_str"
     t.integer  "max_place"
     t.integer  "minimum_move"
+    t.string   "move_from_str"
+    t.string   "move_to_str"
+    t.string   "players_str"
     t.integer  "players_to_setup"
-    t.boolean  "won"
-    t.text     "cards_string"
-    t.string   "card_list"
-    t.string   "players_string"
-    t.text     "army_map_string"
-    t.text     "assignment_map_string"
     t.integer  "state_id"
-    t.string   "move_from_string"
-    t.string   "move_to_string"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.boolean  "won"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
 end

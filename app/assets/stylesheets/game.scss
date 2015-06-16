@@ -1,3 +1,74 @@
 // Place all the styles related to the game controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.country-circle {
+    fill: white;
+    stroke-width: 2;
+}
+
+.unowned {
+    stroke: black;
+}
+
+.player1_owns {
+    stroke: red;
+}
+
+.player2_owns {
+    stroke: blue;
+}
+
+.player3_owns {
+    stroke: purple;
+}
+
+.player4_owns {
+    stroke: purple;
+}
+
+.player5_owns {
+    stroke: purple;
+}
+
+.player6_owns {
+    stroke: purple;
+}
+
+.player7_owns {
+    stroke: purple;
+}
+
+.player8_owns {
+    stroke: purple;
+}
+
+.north-america {
+    fill: blue;
+    stroke: black;
+}
+
+.south-america {
+    fill: green;
+    stroke: black;
+}
+
+.europe {
+    fill: yellow;
+    stroke: black;
+}
+
+.africa {
+    fill: red;
+    stroke: black;
+}
+
+.asia {
+    fill: purple;
+    stroke: black;
+}
+
+.australia {
+    fill: orange;
+    stroke: black;
+}

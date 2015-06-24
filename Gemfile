@@ -27,6 +27,8 @@ gem "risk_game", :path => "/Users/alex/Code/ruby/risk_game"
 
 gem "websocket-rails"
 
+gem "devise"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

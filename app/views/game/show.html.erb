@@ -2,6 +2,87 @@
   <div ng-controller="gameController">
     <h1>Game <%= @game.id %></h1>
 
+    <div style="display: block; clear: both;"></div>
+    <br><br><br><br>
+    <p>Attack From: {{ attackCountry }}</p> 
+    <p>Defend From: {{ defendCountry }}</p>
+    <p>Current:     {{ currentCountry }}</p>
+    <p>Available:   {{ available_action }}</p>
+
+
+    <div class="game-panel">
+      <div class="top-row">
+          {{ game.error }}
+      </div>
+      <div class="middle-row">
+        <div class="users-panel">
+          <h3>Players</h3>
+        </div>
+
+        <div class="board-panel">
+          <%= render "board" %>
+        </div>
+
+        <div class="activity-panel">
+          <h3>Activity</h3>
+          <div ng-repeat="message in messages track by $index">
+            <span> {{ message }} </span><br>
+          </div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+
+      <div class="action-panel" ng-switch="game.state">
+        
+        <div ng-switch-when="0"></div>
+
+        <!-- attack state -->
+        <div ng-switch-when="1">
+            <ul class="action-button-list">
+              
+              <li class="action-button {{ defendCountry != null ? 'active' : 'inactive' }}"
+                  ng-click="attack()">
+                <span class="action-button-text">Attack</span>
+              </li>
+              
+              <li class="action-button active"
+                  ng-click="noMove()">
+                <span class="action-button-text">End Turn</span>
+              </li>
+            </ul>
+        </div>
+
+        <!-- post attack move state -->
+        <div ng-switch-when="3">
+          <ul class="action-button-list">
+            <li class="action-button {{ defendCountry != null ? 'active' : 'inactive' }}"
+                ng-click="move()">
+                <span class="action-button-text">Move</span>
+              </li>
+              <select ng-model="game.moveArmies"
+                      ng-options="i as i for i in game.moveOptions">
+              </select>
+          </ul>
+        </div>
+
+        <!-- place state -->
+        <div ng-switch-when="5">
+          <ul class="action-button-list">
+            
+            <li class="action-button {{ attackCountry != null ? 'active' : 'inactive' }}"
+                ng-click="place()">
+                <span class="action-button-text">Place</span>
+            </li>
+            <select ng-model="game.placeArmies"
+                    ng-options="i as i for i in game.placeOptions">
+              </select>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p style="clear: both;"></p>
+
     <h3> Current Conditions </h3>
     <p>
     Current Player : <%= @game.current_player %> <br>
@@ -89,10 +170,12 @@
         <%= submit_tag("No Move") %>
       <% end %>
     </div>
-
-    <%= render "board" %>
   </div>
 </div>
 <script>
   window._GAMEID = <%= @game.id %>
 </script>
+
+
+
+

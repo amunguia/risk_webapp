@@ -11,10 +11,12 @@ class GameController < ApplicationController
     @game.save
 
     WebsocketRails[:game].trigger 'state', @game.filtered(attacker)
+    WebsocketRails[:game].trigger 'message', @game.action_messagebu
     render "show"
   end
 
   def move
+    WebsocketRails[:game].trigger 'message', 'received something'
     @game = Game.find(params[:id])
     destination_country = params[:destination_country].downcase.to_sym 
     source_country = params[:source_country].downcase.to_sym
@@ -24,6 +26,7 @@ class GameController < ApplicationController
     @game.save
 
     WebsocketRails[:game].trigger 'state', @game.filtered(@game.current_player)
+    WebsocketRails[:game].trigger 'message', @game.action_message
     render "show"
   end
 
@@ -40,6 +43,7 @@ class GameController < ApplicationController
     @game.save
 
     WebsocketRails[:game].trigger 'state', @game.filtered(@game.current_player)
+    WebsocketRails[:game].trigger 'message', "ended turn"
     render "show"
   end
 
@@ -52,6 +56,7 @@ class GameController < ApplicationController
     @game.save
 
     WebsocketRails[:game].trigger 'state', @game.filtered(@game.current_player)
+    WebsocketRails[:game].trigger 'message', @game.action_message
     render "show"
   end
 
@@ -71,20 +76,11 @@ class GameController < ApplicationController
     cards = params[:cards].split(",")
 
     @game.use_cards(by_user, cards)
+    WebsocketRails[:game].trigger 'message', @game.action_message
     @game.save
     render "show"
   end
 
   private 
-
-  def run(action, game)
-    if game.play_action(action, game)
-      game.save
-    else
-      @error = "Invalid action."
-    end
-    game.save
-    game
-  end
   
 end

@@ -14,7 +14,10 @@ app.filter('gameObjFilter', function(){
 
 app.filter('gameOwnerFilter', function(){
     return function(input, countryName) {
-        switch(countryName) {
+        if (!input || !input.assignment_map) {
+           return "unowned";
+        }
+        switch(input.assignment_map[countryName]) {
             case 1:
                 return "player1_owns";
             case 2:

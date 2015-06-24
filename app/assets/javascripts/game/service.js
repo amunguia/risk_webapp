@@ -1,17 +1,105 @@
 var app = angular.module('riskGame');
 
-app.factory('gameService', function() {
+app.factory('gameService', ['$http', '$window', function($http, $window) {
+    //Register on game channnel
+    var dispatcher = new WebSocketRails('localhost:3000/websocket');
+    var channel    = dispatcher.subscribe('game');
+    var scope      = undefined;
+
+    function getScope() {
+        return scope;
+    }
+
+    function setScope(s) {
+        scope = s;
+    }
+
+    function receive(data) {
+        console.log(data);
+    }
+
+    function updateMoveOptions() {
+        var armies = scope.game.army_map[scope.attackCountry] - 1;
+        moveOptions = [];
+        for (var i = 1; i <= armies; i++) {
+            moveOptions.unshift(i);
+        }
+        scope.game.moveOptions = moveOptions;
+    }
+
+    function updateState(game)  {
+        scope.game              = game;
+        scope.game.placeArmies  = game.max_place;
+        options = []
+        for (var i = 1; i <= scope.game.placeArmies; i++) {
+            options.unshift(i);
+        }
+        scope.game.placeOptions = options;
+
+        if (game.state == 3) {
+            scope.attackCountry = game.move_from
+            scope.defendCountry = game.move_to
+            updateMoveOptions();
+        }
+    }
+
     return {
-        attack: function(attack_country, defend_country, attack_with) {
 
+        initialize: function(scope) {
+            setScope(scope);
+
+            //Initialize game state.
+            $http.get(""+$window._GAMEID+"/state").success(updateState);
+            
+            //Bind to relevant channels
+            channel.bind('state', function(game) {
+                scope.$apply(function() {
+                    updateState(game);
+                });
+            });
+
+            channel.bind('message', function(message) {
+                scope.$apply(function() {
+                    scope.messages.unshift(message);
+                });
+            });
         },
 
-        place: function(into_country, number) {
-
+        attack: function(attackCountry, defendCountry, number) {
+            var data = {
+                game: $window._GAMEID,
+                attack_country: attackCountry,
+                defend_country: defendCountry,
+                attack_with: number,
+            };
+            dispatcher.trigger('game.attack', data, receive, receive);
         },
 
-        move: function(from_country, to_country, number) {
+        place: function(intoCountry, number) {
+            var data = {
+                game: $window._GAMEID,
+                armies: number,
+                country: intoCountry
+            };
+            dispatcher.trigger('game.place', data, receive, receive);
+        },
 
+        move: function(fromCountry, toCountry, number) {
+            var data = {
+                game: $window._GAMEID,
+                source_country: fromCountry,
+                destination_country: toCountry,
+                number_armies: number
+            };
+            dispatcher.trigger('game.move', data, receive, receive);
+        },
+
+        noMove: function() {
+            dispatcher.trigger('game.no_move', {game: $window._GAMEID}, receive, receive);
+        },
+
+        updateMoveOptions: function() {
+            updateMoveOptions();
         }
     };
-});
+}]);

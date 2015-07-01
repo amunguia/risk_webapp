@@ -10,6 +10,7 @@ class CreateGames < ActiveRecord::Migration
       t.string   :move_from_str
       t.string   :move_to_str
       t.string   :players_str
+      t.string   :players_map_str
       t.integer  :players_to_setup
       t.integer  :state_id
       t.boolean  :won

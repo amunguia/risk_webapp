@@ -13,8 +13,8 @@ app.filter('gameObjFilter', function(){
 });
 
 app.filter('gameOwnerFilter', function(){
-    return function(input, countryName) {
-        if (!input || !input.assignment_map) {
+    return function(input, countryName, state) {
+        if (!input || !input.assignment_map || input.state == 0) {
            return "unowned";
         }
         switch(input.assignment_map[countryName]) {

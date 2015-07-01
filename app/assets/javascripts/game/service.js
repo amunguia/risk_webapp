@@ -1,9 +1,8 @@
 var app = angular.module('riskGame');
 
 app.factory('gameService', ['$http', '$window', function($http, $window) {
-    //Register on game channnel
     var dispatcher = new WebSocketRails('localhost:3000/websocket');
-    var channel    = dispatcher.subscribe('game');
+    var channel    = dispatcher.subscribe("game"+$window._GAMEID);
     var scope      = undefined;
 
     function getScope() {
@@ -20,14 +19,17 @@ app.factory('gameService', ['$http', '$window', function($http, $window) {
 
     function updateMoveOptions() {
         var armies = scope.game.army_map[scope.attackCountry] - 1;
+        var start  = scope.game.minimum_move;
         moveOptions = [];
-        for (var i = 1; i <= armies; i++) {
+        for (var i = scope.game.minimum_move; i <= armies; i++) {
             moveOptions.unshift(i);
         }
         scope.game.moveOptions = moveOptions;
     }
 
     function updateState(game)  {
+        console.log("state: "+game.state);
+        console.log(game.current_player);
         scope.game              = game;
         scope.game.placeArmies  = game.max_place;
         options = []
@@ -50,6 +52,11 @@ app.factory('gameService', ['$http', '$window', function($http, $window) {
 
             //Initialize game state.
             $http.get(""+$window._GAMEID+"/state").success(updateState);
+            $http.get(""+$window._GAMEID+"/players").success(function(data) {
+                for (var i = 0; i < data.length; i++) {
+                    scope.currentPlayers.push(data[i]);
+                }
+            });
             
             //Bind to relevant channels
             channel.bind('state', function(game) {
@@ -63,6 +70,14 @@ app.factory('gameService', ['$http', '$window', function($http, $window) {
                     scope.messages.unshift(message);
                 });
             });
+
+            channel.bind('users', function(player) {
+                scope.$apply(function() {
+                    if (player.name) {
+                        scope.currentPlayers.push(player);
+                    }
+                });
+            });
         },
 
         attack: function(attackCountry, defendCountry, number) {
@@ -72,16 +87,19 @@ app.factory('gameService', ['$http', '$window', function($http, $window) {
                 defend_country: defendCountry,
                 attack_with: number,
             };
+            console.log(data);
             dispatcher.trigger('game.attack', data, receive, receive);
         },
 
-        place: function(intoCountry, number) {
+        joinGame: function() {
             var data = {
-                game: $window._GAMEID,
-                armies: number,
-                country: intoCountry
+                game: $window._GAMEID
             };
-            dispatcher.trigger('game.place', data, receive, receive);
+            dispatcher.trigger('game.join', data, receive, receive);
+        },
+
+        isPlayersTurn: function() {
+            return $window._USERID == scope.game.current_player;
         },
 
         move: function(fromCountry, toCountry, number) {
@@ -91,11 +109,22 @@ app.factory('gameService', ['$http', '$window', function($http, $window) {
                 destination_country: toCountry,
                 number_armies: number
             };
+            console.log(data);
             dispatcher.trigger('game.move', data, receive, receive);
         },
 
         noMove: function() {
             dispatcher.trigger('game.no_move', {game: $window._GAMEID}, receive, receive);
+        },
+
+        place: function(intoCountry, number) {
+            var data = {
+                game: $window._GAMEID,
+                armies: number,
+                country: intoCountry
+            };
+            console.log(data);
+            dispatcher.trigger('game.place', data, receive, receive);
         },
 
         updateMoveOptions: function() {

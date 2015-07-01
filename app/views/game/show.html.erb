@@ -1,22 +1,20 @@
 <div ng-app="riskGame">
   <div ng-controller="gameController">
-    <h1>Game <%= @game.id %></h1>
-
-    <div style="display: block; clear: both;"></div>
-    <br><br><br><br>
-    <p>Attack From: {{ attackCountry }}</p> 
-    <p>Defend From: {{ defendCountry }}</p>
-    <p>Current:     {{ currentCountry }}</p>
-    <p>Available:   {{ available_action }}</p>
-
+    <p><%= @user.email %></p>
 
     <div class="game-panel">
-      <div class="top-row">
-          {{ game.error }}
-      </div>
+      <div class="top-center">
+        <div class="current-country">
+          {{ currentCountry}}
+        </div>
+      </div>  
+
       <div class="middle-row">
         <div class="users-panel">
-          <h3>Players</h3>
+          <div class="center"><h3>Players</h3></div>
+          <div ng-repeat="player in currentPlayers track by $index">
+            <div class="players-box {{ player.label }}"><span class="player-name"> {{ player.name }} </span></div><br>
+          </div>
         </div>
 
         <div class="board-panel">
@@ -24,22 +22,53 @@
         </div>
 
         <div class="activity-panel">
-          <h3>Activity</h3>
-          <div ng-repeat="message in messages track by $index">
+          <div class="center"><h3>Activity</h3></div>
+          <div class="message"ng-repeat="message in messages track by $index">
             <span> {{ message }} </span><br>
           </div>
         </div>
       </div>
 
       <div class="clear"></div>
+      <div class="error-message">
+        <div>
+          {{game.error}}
+        </div>  
+      </div>
+      <div class="clear"></div>
 
       <div class="action-panel" ng-switch="game.state">
         
-        <div ng-switch-when="0"></div>
+        <!-- need players state -->
+        <div ng-switch-when="0">
+          <ul class="action-button-list">
+              
+              <li class="action-button {{ game.joined ? 'inactive' : 'active' }}"
+                  ng-click="join()">
+                <span class="action-button-text">Join</span>
+              </li>
+            </ul>  
+        </div>
 
         <!-- attack state -->
-        <div ng-switch-when="1">
+        <div ng-switch-when="1" ng-show="isPlayersTurn()">
             <ul class="action-button-list">
+              
+              <li class="action-button">
+                <div class="select-div">
+                  <select class="number-selector"
+                          ng-model="game.moveArmies"
+                          ng-options="i as i for i in game.moveOptions">
+                  </select>
+                </div>
+              </li>
+
+              <li class="action-button {{ defendCountry != null && game.moveArmies ? 'active' : 'inactive' }}"
+                ng-click="move()">
+                <div class="action-button-text">
+                  Move
+                </div>
+              </li>
               
               <li class="action-button {{ defendCountry != null ? 'active' : 'inactive' }}"
                   ng-click="attack()">
@@ -53,127 +82,82 @@
             </ul>
         </div>
 
-        <!-- post attack move state -->
-        <div ng-switch-when="3">
+        <!-- initial place  -->
+        <div ng-switch-when="2" ng-show="isPlayersTurn()">
           <ul class="action-button-list">
-            <li class="action-button {{ defendCountry != null ? 'active' : 'inactive' }}"
+            <li class="action-button">
+              <div class="select-div">
+                <select class="number-selector"
+                        ng-model="game.placeArmies"
+                        ng-options="i as i for i in game.placeOption">
+                </select>
+              </div>
+            </li>
+
+            <li class="action-button btn {{ attackCountry != null ? 'active' : 'inactive' }}"
+                ng-click="place()">
+                <span class="action-button-text">Place</span>
+            </li>
+          </ul>
+        </div>        
+
+        <!-- post attack move state -->
+        <div ng-switch-when="3" ng-show="isPlayersTurn()">
+          <ul class="action-button-list">
+              <li class="action-button">
+                <div class="select-div">
+                  <select class="number-selector"
+                          ng-model="game.moveArmies"
+                          ng-options="i as i for i in game.moveOptions">
+                  </select>
+                </div>
+              </li>
+
+              <li class="action-button {{ defendCountry != null && game.moveArmies ? 'active' : 'inactive' }}"
                 ng-click="move()">
                 <span class="action-button-text">Move</span>
               </li>
-              <select ng-model="game.moveArmies"
-                      ng-options="i as i for i in game.moveOptions">
-              </select>
           </ul>
         </div>
 
         <!-- place state -->
-        <div ng-switch-when="5">
+        <div ng-switch-when="5" ng-show="isPlayersTurn()">
           <ul class="action-button-list">
+
+            <li class="action-button">
+                <div class="select-div">
+                  <select class="number-selector"
+                          ng-model="game.placeArmies"
+                          ng-options="i as i for i in game.placeOptions">
+                  </select>
+                </div>
+              </li>
             
             <li class="action-button {{ attackCountry != null ? 'active' : 'inactive' }}"
                 ng-click="place()">
                 <span class="action-button-text">Place</span>
             </li>
-            <select ng-model="game.placeArmies"
-                    ng-options="i as i for i in game.placeOptions">
-              </select>
+          </ul>
+        </div>
+
+        <!-- game over state -->
+        <div ng-switch-when="6">
+          <ul class="action-button-list">
+            
+            <li class="action-button inactive">
+                <span class="action-button-text">Game Over</span>
+            </li>
           </ul>
         </div>
       </div>
+      </div>
     </div>
     <p style="clear: both;"></p>
-
-    <h3> Current Conditions </h3>
-    <p>
-    Current Player : <%= @game.current_player %> <br>
-    Max Place :  <%= @game.max_place %> <br>
-    Min Move : <%= @game.minimum_move %><br>
-    Move From : <%= @game.move_from %><br>
-    Move To : <%= @game.move_to %><br>
-    State :  <%= @game.state.class.to_s %><br>
-    Won : <%= @game.won %><br>
-    Players to Setup : <%= @game.players_to_setup %><br>
-    Cards : <%= @game.cards_with_values_for_player @game.current_player %>
-    Rolls : A <%= @game.rolls[0] %>, D <%= @game.rolls[1] %>
-    </p>
-
-    <div>
-    <% Risk::Game::Board.continents::each do |continent| %>
-      <div style="display: inline-block; padding-left: 20px; float:left; width: 12%;">
-        <h2> <%= continent[1] %></h2>
-        <ul>
-        <% continent[0].each do |country| %>
-          <li><%= @game.owner_of country%>: <%= country %> : <%= @game.armies_in country %></li>  
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
-    </div>
-
-
-    <div style="clear: both;">
-    </div>
-
-      <%= @game.error_message %>
-
-    <div style="float: left; width: 20%; display: inline-block;">
-      <h4>Use Cards</h4>
-      <%= form_tag("/game/#{@game.id}/use_cards", method: "post") do %>
-        <%= label_tag(:cards, "Cards to submit:") %>
-        <%= text_field_tag(:cards) %><br>
-        <%= submit_tag("Submit") %>
-      <% end %>
-    </div>
-
-    <div style="float: left; width: 22%; display: inline-block;">  
-      <h4>Place</h4>
-      <%= form_tag("/game/#{@game.id}/place", method: "post") do %>
-        <%= label_tag(:country, "Place into country:") %>
-        <%= text_field_tag(:country) %><br>
-        <%= label_tag(:number, "Number to place:") %>
-        <%= text_field_tag(:number) %><br>
-        <%= submit_tag("Place") %>
-      <% end %>
-    </div>
-
-
-    <div style="float: left; width: 22%; display: inline-block;">
-      <h4>Attack</h4>
-      <%= form_tag("/game/#{@game.id}/attack", method: "post") do %>
-        <%= label_tag(:attack_country, "Attack from country:") %>
-        <%= text_field_tag(:attack_country) %><br>
-        <%= label_tag(:defend_country, "Atack to country:") %>
-        <%= text_field_tag(:defend_country) %><br>
-        <%= label_tag(:attack_with, "Number to attack with:") %>
-        <%= text_field_tag(:attack_with) %><br>
-        <%= submit_tag("Attack") %>
-      <% end %>
-    </div>
-
-
-    <div style="float: left; width: 22%; display: inline-block;">
-      <h4>Move</h4>
-      <%= form_tag("/game/#{@game.id}/move", method: "post") do %>
-        <%= label_tag(:source_country, "Move from country:") %>
-        <%= text_field_tag(:source_country) %><br>
-        <%= label_tag(:destination_country, "Move to country:") %>
-        <%= text_field_tag(:destination_country) %><br>
-        <%= label_tag(:number_armies, "Number to move:") %>
-        <%= text_field_tag(:number_armies) %><br>
-        <%= submit_tag("Move") %>
-      <% end %>
-    </div>
-
-    <div style="float: left; width: 10%; display: inline-block;">
-      <h4>No Move</h4>
-      <%= form_tag("/game/#{@game.id}/no_move", method: "post") do %>
-        <%= submit_tag("No Move") %>
-      <% end %>
-    </div>
   </div>
 </div>
 <script>
   window._GAMEID = <%= @game.id %>
+  window._USERID = <%= @user.id %>
 </script>
 
 

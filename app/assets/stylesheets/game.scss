@@ -6,6 +6,14 @@ text {
     stroke: white;
 }
 
+body {
+    background-color: #2d130f;
+}
+
+svg {
+    border-radius: 15px;
+}
+
 .country-circle {
     stroke-width: 2;
 }
@@ -58,7 +66,7 @@ text {
 }
 
 .europe {
-    fill: #ddab9a;
+    fill: #d48f7e;
     stroke: black;
 }
 
@@ -73,7 +81,7 @@ text {
 }
 
 .australia {
-    fill: #d7879f;
+    fill: #c9925d;
     stroke: black;
 }
 
@@ -81,8 +89,26 @@ text {
     background-color: #dfe3f4;
 }
 
+.game-panel {
+    width: 1285px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #C0C0C0;
+}
+
+.center {
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.top-center {
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .board-panel {
-    margin: auto;
     margin-left: 15px;
     width: auto;
     display: inline-block;
@@ -94,8 +120,17 @@ text {
     float: left;
     padding: 10px;
     width: 200px;
-    height: 480px;
-    border: 2px solid brown;
+    height: 500px;
+    border: 2px solid #2c1510;
+    border-radius: 20px;
+    background: black;
+}
+
+.players-box {
+    margin: 5px;
+    padding: 5px 3px 5px 3px;
+    border-radius: 2px;
+    font-size: 1.2em;
 }
 
 .activity-panel {
@@ -104,19 +139,27 @@ text {
     display: inline-block;
     float: left;
     width: 200px;
-    height: 480px;
-    border: 2px solid brown;
+    height: 500px;
+    border: 2px solid #2c1510;
+    border-radius: 20px;
     overflow: scroll;
+    background: black;
 }
 
 .activity-panel li {
     list-style: none;
 }
 
+.message {
+    margin: 15px 3px 0px 3px;
+}
+
 .action-panel {
     width: 100%;
-    background-color: gray;
-    height: 100px;
+    background-color: black;
+    border: 2px solid #2c1510;
+    border-radius: 20px;
+    height: 110px;
 }
 
 .clear {
@@ -124,35 +167,127 @@ text {
 }
 
 .action-button-list {
-    margin-left: 30%;
+    display: block;
+    padding-left: 20%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .action-button {
-    color: white;
     list-style: none;
+    border-radius: 5px;
     display: inline-block;
     float: left;
-    margin: 10px 10px 10px 10px;
-    padding-left: 5px;
-    padding-right: 5px;
+    margin: 10px 20px 10px 20px;
     height: 80px;
 }
 
 .active {
-    background-color: blue;
+    background-color: #1a4f27;
 }
 
 .inactive {
-    background-color: darkgray;
+    background-color: #55341c;
 }
 
 .action-button-text {
     position: relative;
+    margin-left: 20px;
+    margin-right: 20px;
     top: 30%;
+    font-size: 2em;
+}
+
+.dropdown-button-text {
+    position: relative;
+    margin-left: 20px;
+    margin-right: 20px;
+    top: 15%;
     font-size: 2em;
 }
 
 .top-row {
     width: 100%;
     height: 50px;
+}
+
+.players-box {
+    display: inline-block;
+    color: white;
+}
+
+.player1 {
+    background-color: red;
+}
+
+.player2 {
+    background-color: blue;
+}
+
+.player3 {
+    background-color: purple;
+}
+
+.player4 {
+    background-color: orange;
+}
+
+.player5 {
+    background-color: lightseagreen;
+}
+
+.player6 {
+    background-color: green;
+}
+
+.player7 {
+    background-color: gray;
+}
+
+.player8 {
+    background-color: black;
+}
+
+.current-country {
+    color: #C0C0C0;
+    font-size: 1.2em;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.error-message{
+    color: red;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.2em;
+    height: 30px;
+}
+
+.dropdown {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+}
+
+.number-selector {
+    width: 80px;
+}
+
+.select-div {
+    display: inline-block;
+    float: left;
+}
+
+.styled-select {
+    background: transparent;
+    width: 268px;
+    padding: 5px;
+    font-size: 16px;
+    line-height: 1;
+    border: 0;
+    border-radius: 0;
+    height: 34px;
+    -webkit-appearance: none;
 }

@@ -4,6 +4,7 @@ app.controller('gameController', ['$scope', '$window', 'gameService',
     function($scope, $window, gameService) {
         $scope.game                = {};
         $scope.messages            = [];
+        $scope.currentPlayers      = [];
         $scope.currentCountry      = null;
         $scope.attackCountry       = null;
         $scope.defendCountry       = null;
@@ -11,11 +12,12 @@ app.controller('gameController', ['$scope', '$window', 'gameService',
         $scope.game.moveOptions    = [];
         $scope.game.placeArmies    = 0;
         $scope.game.placeOptions   = [];
+        $scope.game.joined         = false;
 
         gameService.initialize($scope);
 
         $scope.attack = function() {
-            if ($scope.defendCountry == null || !isPlayersTurn()) {
+            if ($scope.defendCountry == null || !gameService.isPlayersTurn()) {
                 return;
             }
 
@@ -27,30 +29,34 @@ app.controller('gameController', ['$scope', '$window', 'gameService',
             }
 
             gameService.attack($scope.attackCountry, $scope.defendCountry, attack_with);
-            $scope.attackCountry = null;
-            $scope.defendCountry = null;
+        }
+
+        $scope.join = function() {
+            gameService.joinGame();
+            $scope.game.joined = true;
         }
 
         $scope.move = function() {
-            if ($scope.defendCountry == null || !isPlayersTurn() || $scope.game.moveArmies <= 0) {
+            if ($scope.defendCountry == null || !gameService.isPlayersTurn() || 
+                !$scope.game.moveArmies ||  $scope.game.moveArmies <= 0) {
                 return;
             }
 
             gameService.move($scope.attackCountry, $scope.defendCountry, $scope.game.moveArmies);
-            $scope.attackCountry = null;
-            $scope.defendCountry = null;
+            $scope.attackCountry      = null;
+            $scope.defendCountry      = null;
             $scope.game.moveArmies    = 0;
         }
 
         $scope.noMove = function() {
-            if (!isPlayersTurn()) {
+            if (!gameService.isPlayersTurn()) {
                 return;
             }
             gameService.noMove();
         }
 
         $scope.place = function() {
-            if (!isPlayersTurn() || $scope.game.placeArmies < 1) {
+            if (!gameService.isPlayersTurn() || $scope.game.placeArmies < 1) {
                 return;
             }
             
@@ -70,8 +76,7 @@ app.controller('gameController', ['$scope', '$window', 'gameService',
         }
 
         $scope.clickCountry = function(country) {
-            console.log($scope.attackCountry + "\t"+$scope.defendountry);
-            if (isPlayersTurn()) {
+            if (gameService.isPlayersTurn()) {
                 switch($scope.game.state) {
                     case 1:
                         clickWhileAttack(country);
@@ -107,8 +112,8 @@ app.controller('gameController', ['$scope', '$window', 'gameService',
             $scope.attackCountry = country;
         }
 
-        function isPlayersTurn() {
-            return true;
+        $scope.isPlayersTurn = function () {
+            return gameService.isPlayersTurn();
         }
         
         function requiresSecondCountry() {

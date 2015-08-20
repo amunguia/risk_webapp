@@ -1,7 +1,5 @@
 class GameController < ApplicationController
 
-  before_action :authenticate_user!, only: [:new, :state, :show]
-
   def new
     @game = Game.create_with_players initial_players
     @game.save
@@ -24,7 +22,7 @@ class GameController < ApplicationController
   def state
     @game = Game.find params[:id]
     @user = current_user
-    render json: @game.filtered(current_user.id)
+    render json: @game.filtered(current_user)
   end
 
   def use_cards

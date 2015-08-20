@@ -29,10 +29,10 @@ class Game < ActiveRecord::Base
 
   def add_player(user)
     if players_map.keys.length < players.length &&
-         players_map[user.id] == nil
+         players_map[user] == nil
       player_id            = players_map.keys.length + 1
-      players_map[user.id] = {name: user.email, label: "player#{player_id}", player_id: player_id}
-      players_map[user.id]
+      players_map[user] = {name: user, label: "player#{player_id}", player_id: player_id}
+      players_map[user]
     else
       false
     end

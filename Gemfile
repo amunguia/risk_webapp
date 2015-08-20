@@ -27,8 +27,6 @@ gem "risk_game", :git => "https://github.com/amunguia/risk_game"
 
 gem "websocket-rails"
 
-gem "devise"
-
 group :production do
   gem 'pg'
 end

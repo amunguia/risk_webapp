@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  devise_for :users
   root "game#new"
   get  "game/new"           => "game#new"
   get  "game/:id"           => "game#show"

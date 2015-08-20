@@ -1,6 +1,6 @@
 <div ng-app="riskGame">
   <div ng-controller="gameController">
-    <p><%= @user.email %></p>
+    <p><%= @user %></p>
 
     <div class="game-panel {{isPlayersTurn()? 'my-turn' : ''}}">
       <div class="top-center">
@@ -158,8 +158,8 @@
   </div>
 </div>
 <script>
-  window._GAMEID = <%= @game.id %>
-  window._USERID = <%= @user.id %>
+  window._GAMEID = <%= @game.id %>;
+  window._USERID = '<%= @user %>';
 </script>
 
 

@@ -1,7 +1,5 @@
 class GameActionController < WebsocketRails::BaseController
 
-  before_filter :authenticate_user!
-
   def attack
     game           = Game.find message[:game]
     attacker       = game.is_current_player current_user
@@ -25,6 +23,8 @@ class GameActionController < WebsocketRails::BaseController
       game.save
       WebsocketRails["game#{game.id}"].trigger 'users', joined
       update_players game
+    else
+      WebsocketRails["game#{game.id}"].trigger 'state', {error: "FAIL JOIN"}
     end
   end
 

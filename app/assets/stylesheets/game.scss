@@ -52,7 +52,7 @@ svg {
 }
 
 .player8_owns {
-    stroke: black;
+    fill: black;
 }
 
 .north-america {
@@ -82,6 +82,16 @@ svg {
 
 .australia {
     fill: #c9925d;
+    stroke: black;
+}
+
+.my-turn .attack-country {
+    fill: #1f2f2f;
+    stroke: black;
+}
+
+.my-turn .defend-country {
+    fill: #a3a3a3;
     stroke: black;
 }
 
@@ -146,6 +156,10 @@ svg {
     background: black;
 }
 
+#message-pane:first-child {
+    color: #ebe7c2;
+}
+
 .activity-panel li {
     list-style: none;
 }
@@ -178,7 +192,7 @@ svg {
     border-radius: 5px;
     display: inline-block;
     float: left;
-    margin: 10px 20px 10px 20px;
+    margin: 0px 20px 10px 20px;
     height: 80px;
 }
 
@@ -194,7 +208,7 @@ svg {
     position: relative;
     margin-left: 20px;
     margin-right: 20px;
-    top: 30%;
+    top: 25%;
     font-size: 2em;
 }
 
@@ -258,9 +272,8 @@ svg {
 
 .error-message{
     color: red;
-    width: 400px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    text-align: center;
     font-size: 1.2em;
     height: 30px;
 }

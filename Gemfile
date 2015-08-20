@@ -23,7 +23,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem "risk_game", :path => "/Users/alex/Code/ruby/risk_game"
+gem "risk_game", :git => "https://github.com/amunguia/risk_game"
 
 gem "websocket-rails"
 

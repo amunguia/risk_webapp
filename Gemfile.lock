@@ -1,5 +1,6 @@
-PATH
-  remote: /Users/alex/Code/ruby/risk_game
+GIT
+  remote: https://github.com/amunguia/risk_game
+  revision: f52a817ae306d99e5c9b51d209611f2728f6197a
   specs:
     risk_game (0.0.1)
 

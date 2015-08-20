@@ -2,7 +2,7 @@
   <div ng-controller="gameController">
     <p><%= @user.email %></p>
 
-    <div class="game-panel">
+    <div class="game-panel {{isPlayersTurn()? 'my-turn' : ''}}">
       <div class="top-center">
         <div class="current-country">
           {{ currentCountry}}
@@ -23,8 +23,10 @@
 
         <div class="activity-panel">
           <div class="center"><h3>Activity</h3></div>
-          <div class="message"ng-repeat="message in messages track by $index">
-            <span> {{ message }} </span><br>
+          <div id="message-pane">
+            <div class="message" ng-repeat="message in messages track by $index">
+              <span> {{ message }} </span><br>
+            </div>
           </div>
         </div>
       </div>
@@ -89,7 +91,7 @@
               <div class="select-div">
                 <select class="number-selector"
                         ng-model="game.placeArmies"
-                        ng-options="i as i for i in game.placeOption">
+                        ng-options="i as i for i in game.placeOptions">
                 </select>
               </div>
             </li>

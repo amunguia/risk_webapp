@@ -39,8 +39,8 @@ class Game < ActiveRecord::Base
   end
 
   def is_current_player(user)
-    if players_map[user.id] && players_map[user.id][:player_id] == current_player
-      players_map[user.id][:player_id]
+    if players_map[user] && players_map[user][:player_id] == current_player
+      players_map[user][:player_id]
     else
       false
     end

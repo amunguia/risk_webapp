@@ -28,8 +28,7 @@ app.factory('gameService', ['$http', '$window', function($http, $window) {
     }
 
     function updateState(game)  {
-        console.log("state: "+game.state);
-        console.log(game.current_player);
+        console.log(game);
         scope.game              = game;
         scope.game.placeArmies  = game.max_place;
         options = []
@@ -76,6 +75,9 @@ app.factory('gameService', ['$http', '$window', function($http, $window) {
                     if (player.name) {
                         scope.currentPlayers.push(player);
                     }
+                    if (player.name == scope.game.username) {
+                        scope.game.joined = true;
+                    }
                 });
             });
         },
@@ -91,9 +93,10 @@ app.factory('gameService', ['$http', '$window', function($http, $window) {
             dispatcher.trigger('game.attack', data, receive, receive);
         },
 
-        joinGame: function() {
+        joinGame: function(name) {
             var data = {
-                game: $window._GAMEID
+                game: $window._GAMEID,
+                username: name
             };
             dispatcher.trigger('game.join', data, receive, receive);
         },

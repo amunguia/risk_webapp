@@ -17,14 +17,14 @@ class GameActionController < WebsocketRails::BaseController
 
   def join
     game      = Game.find message[:game]
-
-    joined    = game.add_player current_user
+    username  = message[:username]
+    joined    = game.add_player(current_user, username)
     if joined
       game.save
       WebsocketRails["game#{game.id}"].trigger 'users', joined
       update_players game
     else
-      WebsocketRails["game#{game.id}"].trigger 'state', {error: "FAIL JOIN"}
+      WebsocketRails["game#{game.id}"].trigger 'state', {error: "Sorry, that username is take. Please choose another."}
     end
   end
 
@@ -70,6 +70,14 @@ class GameActionController < WebsocketRails::BaseController
   end
 
   private 
+
+  def current_user
+    if session[:user_id] == nil
+      session[:user_id] = rand(36**8).to_s(36)
+    else
+      session[:user_id]
+    end
+  end
 
   def update_players(game)
     WebsocketRails["game#{game.id}"].trigger 'state', game.filtered(game.current_player)

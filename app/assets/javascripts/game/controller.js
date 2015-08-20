@@ -13,6 +13,7 @@ app.controller('gameController', ['$scope', '$window', 'gameService',
         $scope.game.placeArmies    = 0;
         $scope.game.placeOptions   = [];
         $scope.game.joined         = false;
+        $scope.game.username       = "";
 
         gameService.initialize($scope);
 
@@ -32,8 +33,12 @@ app.controller('gameController', ['$scope', '$window', 'gameService',
         }
 
         $scope.join = function() {
-            gameService.joinGame();
-            $scope.game.joined = true;
+            if ($scope.game.username.length < 1) {
+                $scope.game.error = "Please choose a username.";
+                return;
+            }
+            gameService.joinGame($scope.game.username);
+
         }
 
         $scope.move = function() {

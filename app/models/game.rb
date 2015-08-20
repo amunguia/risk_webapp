@@ -27,11 +27,11 @@ class Game < ActiveRecord::Base
     game.state_id           = game.state ? id_for_state : 6 # improper initialize
   end
 
-  def add_player(user)
+  def add_player(user, username)
     if players_map.keys.length < players.length &&
          players_map[user] == nil
-      player_id            = players_map.keys.length + 1
-      players_map[user] = {name: user, label: "player#{player_id}", player_id: player_id}
+      player_id             = players_map.keys.length + 1
+      players_map[user] = {name: username, label: "player#{player_id}", player_id: player_id}
       players_map[user]
     else
       false

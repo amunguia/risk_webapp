@@ -44,11 +44,11 @@
         <!-- need players state -->
         <div ng-switch-when="0">
           <ul class="action-button-list">
-              
-              <li class="action-button {{ game.joined ? 'inactive' : 'active' }}"
-                  ng-click="join()">
+              <a href="#join-modal">
+              <li class="action-button {{ game.joined ? 'inactive' : 'active' }}">
                 <span class="action-button-text">Join</span>
               </li>
+              </a>
             </ul>  
         </div>
 
@@ -152,6 +152,17 @@
           </ul>
         </div>
       </div>
+       <div class="modalDialog" id="join-modal">
+          <div class="modal-dialog">
+            <div class="modal-header">
+              Choose a username:
+            </div>
+            <div class="modal-body">
+              <input type="text" ng-model="game.username"></div>
+              <a href="#close" class="btn btn-primary" ng-click="join()">Join</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <p style="clear: both;"></p>

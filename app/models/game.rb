@@ -27,6 +27,10 @@ class Game < ActiveRecord::Base
     game.state_id           = game.state ? id_for_state : 6 # improper initialize
   end
 
+  def self.open_games
+    Game.where(state_id: 0)
+  end
+
   def add_player(user, username)
     if players_map.keys.length < players.length &&
          players_map[user] == nil
@@ -35,6 +39,12 @@ class Game < ActiveRecord::Base
       players_map[user]
     else
       false
+    end
+  end
+
+  def current_players
+    players_map.map do |k, v|
+      v[:name]
     end
   end
 

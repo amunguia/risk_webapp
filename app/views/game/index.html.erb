@@ -1,6 +1,1 @@
-
-<ul> 
-  <% @games.each do |game| %>
-    <li><%= game.filtered %></li>    
-  <% end %>
-</ul>
+<%= render partial: "game", collection: @games %>

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root "game#new"
+  get  "game"               => "game#index"
   get  "game/new"           => "game#new"
   get  "game/:id"           => "game#show"
   post "game/:id/attack"    => "game#attack"

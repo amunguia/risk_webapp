@@ -1,0 +1,8 @@
+<div class="open-game">
+  <ul class="players-in-game">
+    <% game.current_players.each do |p| %>
+      <li class="player-in-game"><%= p %>
+    <% end %>
+  </ul>
+  <%= link_to "Join", "/game/#{game.id}" %>
+</div>

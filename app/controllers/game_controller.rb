@@ -11,6 +11,10 @@ class GameController < ApplicationController
     render json: @game.players_map.values
   end
 
+  def index
+    @games = Game.open_games
+  end
+
   def show
     @game = Game.find params[:id]
     @user = current_user

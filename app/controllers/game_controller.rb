@@ -3,9 +3,7 @@ class GameController < ApplicationController
   def new
     @game = Game.create_with_players initial_players
     @game.save
-
-    @user = current_user
-    render "show"
+    redirect_to action: "show", id: @game.id
   end
 
   def players

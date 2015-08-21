@@ -37,7 +37,7 @@ app.factory('gameService', ['$http', '$window', function($http, $window) {
         }
         scope.game.placeOptions = options;
 
-        if (game.state == 3) {
+        if (game.state == 3 && scope.isPlayersTurn()){
             scope.attackCountry = game.move_from
             scope.defendCountry = game.move_to
             updateMoveOptions();

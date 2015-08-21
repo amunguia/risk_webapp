@@ -1,1 +1,23 @@
-<%= render partial: "game", collection: @games %>
+<div class="game-index container-responsive">
+    <div class="row-responsive">
+        <div class="new-game-index col-md-7 col-md-offset-1">
+            <div class="container-responsive">
+                <div class="row">
+                    <h2 class="join-game-prompt col-md-4 col-md-offset-4">Join a Game</h2> 
+                </div>
+                <%= render partial: "game", collection: @games %>
+            </div>
+        </div>
+        <div class="start-game-index col-md-3 col-md-offset-1">
+            <h2 class="join-game-prompt"> Start a New Game</h2>
+            <a class="new-game btn btn-lg btn-primary"
+               href="/game/new/2">2 Players</a>
+            <p class="clear"></p>
+            <a class="new-game btn btn-lg btn-primary"
+               href="/game/new/3">3 Players</a>
+            <p class="clear"></p>
+            <a class="new-game btn btn-lg btn-primary"
+               href="/game/new/4">4 Players</a>
+        </div> 
+    </div>
+</div>

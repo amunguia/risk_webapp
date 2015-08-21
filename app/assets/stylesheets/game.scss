@@ -355,3 +355,41 @@ svg {
 .close:hover {
     background: #00d9ff;
 }
+.join-game-prompt {
+    color: white;
+}
+.game-index {
+    width: 100%;
+}
+.join-game-button {
+    display: inline-block;
+    background-color: #1f5c5e;
+    color: white;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.open-game {
+    display: inline-block;
+    background-color: darkgray;
+    margin: 10px;
+    padding: 7px;
+    border-radius: 5px;
+}
+.player {
+    display: inline-block;
+    background-color: #615e20;
+    color: white;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 0.9em;
+}
+.players {
+    margin: auto;
+}
+.new-game {
+    margin: auto;
+    margin-left: 20%;
+}
+.new-game-index, start-game-index {
+    margin-left: 10px;
+}

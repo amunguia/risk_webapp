@@ -42,7 +42,7 @@ class GameController < ApplicationController
   
   def initial_players
     players = []
-    number  = params[:number_players] ? params[:number_players].to_i : 3
+    number  = params[:num] ? params[:num].to_i : 3
     number.times { |i| players << i+1 }
     players
   end

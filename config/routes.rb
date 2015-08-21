@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "game#new"
+  root to: "game#index"
   get  "game"               => "game#index"
   get  "game/new/:num"      => "game#new"
   get  "game/:id"           => "game#show"

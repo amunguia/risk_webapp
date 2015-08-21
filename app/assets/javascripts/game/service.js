@@ -1,7 +1,7 @@
 var app = angular.module('riskGame');
 
 app.factory('gameService', ['$http', '$window', function($http, $window) {
-    var dispatcher = new WebSocketRails('localhost:3000/websocket');
+    var dispatcher = new WebSocketRails('shrouded-sands-8100.herokuapp.com/websocket');
     var channel    = dispatcher.subscribe("game"+$window._GAMEID);
     var scope      = undefined;
 

@@ -7,7 +7,7 @@ class GameController < ApplicationController
   end
 
   def players
-    @game = Game.find params[:id]
+    @game = Game.find game_params[:id]
     render json: @game.players_map.values
   end
 
@@ -16,19 +16,19 @@ class GameController < ApplicationController
   end
 
   def show
-    @game = Game.find params[:id]
+    @game = Game.find game_params[:id]
     @user = current_user
     render "show"
   end
 
   def state
-    @game = Game.find params[:id]
+    @game = Game.find game_params[:id]
     @user = current_user
     render json: @game.filtered(current_user)
   end
 
   def use_cards
-    @game = Game.find params[:id]
+    @game = Game.find game_params[:id]
     by_user = @game.current_player
     cards = params[:cards].split(",")
 
@@ -42,7 +42,7 @@ class GameController < ApplicationController
   
   def initial_players
     players = []
-    number  = params[:num] ? params[:num].to_i : 3
+    number  = new_params[:num] ? new_params[:num].to_i : 3
     number.times { |i| players << i+1 }
     players
   end
@@ -51,6 +51,14 @@ class GameController < ApplicationController
     players = []
     game.players.length.times {|i| players << 0}
     players
+  end
+
+  def new_params
+    params.permit(:num)
+  end
+
+  def game_params
+    params.permit(:id)
   end
 
 end

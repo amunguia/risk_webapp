@@ -2,3 +2,4 @@
 
 This application allows 2 - 4 players to play Risk online. Play at: https://shrouded-sands-8100.herokuapp.com.
 
+This application is implemented using Rails and AngularJS.
